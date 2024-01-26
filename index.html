@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  const ws = new WebSocket('ws://localhost:3000');
+
+  ws.onopen = () => {
+    console.log('WebSocket is connected');
+  };
+
+  ws.onmessage = (event) => {
+    console.log(event.data);
+  };
+
+  window.executeCommand = (command) => {
+    ws.send(command);
+  };
+</script>
+
+
+<input type=""text" id="command" />
+<input type="button" value="Execute" onclick="executeCommand(document.getElementById('command').value)" />
+</body>
+</html>
