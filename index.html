@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>WebSockets Terminal</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css" />
+</head>
 <body>
 <script>
   const ws = new WebSocket('ws://localhost:3000');
@@ -24,30 +31,29 @@
     document.getElementById('output').style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
     document.getElementById('output').style.fontWeight = 'bold';
     
-    // when enter is pressed on output area, execute command
-    document.getElementById('output').addEventListener('keydown', (event) => {
-      if (event.keyCode === 13) {
-        executeCommand(document.getElementById('output').value);
+    // Use xterm.js to make the output area behave like a terminal and allow for user input and output
+    const term = new Terminal();
+    term.open(document.getElementById('output'));
+    term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+    term.onKey(e => {
+      if (e.domEvent.keyCode === 13) {
+        ws.send(term._core.buffer.translateBufferLineToString(term._core.buffer.ybase + term._core.buffer.y - 1, true));
+        term.write('\r\n');
+        ws.onmessage = (event) => {
+          term.write(event.data);
+        };
+      } else if (e.domEvent.keyCode === 8) {
+        term.write('\b \b');
+      } else {
+        term.write(e.key);
       }
     });
   };
 
-  ws.onmessage = (event) => {
-    console.log(event.data);
-  };
-
-  window.executeCommand = (command) => {
-    ws.send(command);
-    ws.onmessage = (event) => {
-      document.getElementById('output').value += event.data;
-    };
-  };
 </script>
 
 
 <textarea id="output" rows="10" cols="50"></textarea>
 
-<input type=""text" id="command" />
-<input type="button" value="Execute" onclick="executeCommand(document.getElementById('command').value)" />
 </body>
 </html>
