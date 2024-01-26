@@ -1,3 +1,7 @@
+
+![Logo](./logo.png)
+
+
 # Usage 
 
 To build the Docker image, run the following command in your terminal:
