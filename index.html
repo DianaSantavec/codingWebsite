@@ -6,6 +6,25 @@
 
   ws.onopen = () => {
     console.log('WebSocket is connected');
+
+    // make output area style like any other popular terminal emulator
+    document.getElementById('output').style.backgroundColor = 'black';
+    document.getElementById('output').style.color = 'white';
+    document.getElementById('output').style.fontFamily = 'monospace';
+    document.getElementById('output').style.fontSize = '16px';
+    document.getElementById('output').style.border = 'none';
+    document.getElementById('output').style.resize = 'none';
+    document.getElementById('output').style.outline = 'none';
+    document.getElementById('output').style.overflow = 'auto';
+    document.getElementById('output').style.padding = '10px';
+    document.getElementById('output').style.margin = '10px';
+    document.getElementById('output').style.width = 'calc(100% - 20px)';
+    document.getElementById('output').style.height = 'calc(100% - 20px)';
+    document.getElementById('output').style.borderRadius = '5px';
+    document.getElementById('output').style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+    document.getElementById('output').style.fontWeight = 'bold';
+    
+
   };
 
   ws.onmessage = (event) => {
