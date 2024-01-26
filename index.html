@@ -24,7 +24,12 @@
     document.getElementById('output').style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
     document.getElementById('output').style.fontWeight = 'bold';
     
-
+    // when enter is pressed on output area, execute command
+    document.getElementById('output').addEventListener('keydown', (event) => {
+      if (event.keyCode === 13) {
+        executeCommand(document.getElementById('output').value);
+      }
+    });
   };
 
   ws.onmessage = (event) => {
