@@ -6,6 +6,9 @@ COPY package*.json ./
 
 RUN npm install
 
+# install git 
+RUN apt-get update && apt-get install -y git
+
 COPY . .
 
 EXPOSE 3000
